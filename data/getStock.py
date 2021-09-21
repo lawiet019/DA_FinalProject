@@ -7,8 +7,8 @@ lg = bs.login()
 print('login respond error_code:'+lg.error_code)
 print('login respond  error_msg:'+lg.error_msg)
 # set parameters
-startdate = '2020-01-24'
-enddate = '2020-04-10'
+startdate = '2020-01-01'
+enddate = '2020-12-31'
 
 
 # get the first layer of data from shenzhen
@@ -24,21 +24,22 @@ while (rs.error_code == '0') & rs.next():
     data_list.append(rs.get_row_data())
 result = pd.DataFrame(data_list, columns=rs.fields)
 # save the data to csv
-result.to_csv("/Users/koko/Documents/data_analytics/finalproject/data/stock_shanghai.csv", index=False)
+result.to_csv("/Users/koko/Documents/data_analytics/finalproject/data/stock_shanghai_all.csv", index=False)
 print(result)
-#
-# code_list = ["sh.000032","sh.000033","sh.000034","sh.000035","sh.000036","sh.000037","sh.000038",
-#              "sh.000039","sh.000040","sh.000041","sh.000104","sh.000105","sh.000106","sh.000107",
-#              "sh.000108","sh.000109","sh.000110","sh.000111","sh.000112","sh.000113"]
-# second_list = []
-# for code in code_list:
-#     rs = bs.query_history_k_data_plus(code,
-#                                       "date,code,open,high,low,close,preclose,volume,amount,pctChg",
-#                                       start_date=startdate, end_date=enddate, frequency="d")
-#     while (rs.error_code == '0') & rs.next():
-#         second_list.append(rs.get_row_data())
-# result = pd.DataFrame(second_list, columns=rs.fields)
-# result.to_csv("/Users/koko/Documents/data_analytics/final project/data/stock_firstindex.csv", index=False)
-# print(result)
-# 登出系统
+
+
+code_list = ["sh.000032","sh.000033","sh.000034","sh.000035","sh.000036","sh.000037","sh.000038",
+             "sh.000039","sh.000040","sh.000041","sh.000104","sh.000105","sh.000106","sh.000107",
+             "sh.000108","sh.000109","sh.000110","sh.000111","sh.000112","sh.000113"]
+second_list = []
+for code in code_list:
+    rs = bs.query_history_k_data_plus(code,
+                                      "date,code,open,high,low,close,preclose,volume,amount,pctChg",
+                                      start_date=startdate, end_date=enddate, frequency="d")
+    while (rs.error_code == '0') & rs.next():
+        second_list.append(rs.get_row_data())
+result = pd.DataFrame(second_list, columns=rs.fields)
+result.to_csv("/Users/koko/Documents/data_analytics/finalproject/data/stock_firstindex_all.csv", index=False)
+print(result)
+
 bs.logout()

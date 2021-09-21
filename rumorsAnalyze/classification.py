@@ -1,7 +1,7 @@
 import  pandas as pd
 import  jieba
 import jieba.analyse
-import gensim
+
 from gensim import corpora, models
 import numpy as np
 from matplotlib import pyplot as plt
@@ -26,7 +26,7 @@ def is_Chinese(word):
     return True
 
 def clearWord(word_list):
-    stop_words =  [line.strip() for line in open('data/cn_stopwords.txt').readlines() ]
+    stop_words =  [line.strip() for line in open('/Users/koko/Documents/data_analytics/finalproject/data/cn_stopwords.txt').readlines() ]
     return [word for word in word_list if (word not in stop_words) and  is_Chinese(word) ]
 
 def choosePerplexity(body_list):
@@ -48,7 +48,10 @@ def choosePerplexity(body_list):
 
 
     plt.plot(x,y)
-    plt.savefig("Perplexity.png")
+    plt.title("Perplexity based on different k value")
+    plt.xlabel("k")
+    plt.ylabel('Perplexity')
+    plt.savefig("/Users/koko/Documents/data_analytics/finalproject/result/Perplexity.png")
     plt.show()
 
 
@@ -97,8 +100,8 @@ def buildLDA(body_list):
 
 
 if __name__ == '__main__':
-    csv_data = pd.read_csv("./data/DXYRumors.csv")
+    csv_data = pd.read_csv("/Users/koko/Documents/data_analytics/finalproject/data/DXYRumors.csv")
     rumors_list = csv_data["body"]
     clear_body_list,total_word_list = tokenAndCleanUp(rumors_list)
-    # choosePerplexity(clear_body_list)
-    buildLDA(clear_body_list)
+    choosePerplexity(clear_body_list)
+    # buildLDA(clear_body_list)
